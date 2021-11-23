@@ -13,6 +13,7 @@ import com.example.trainlib.R.layout.view_users
 import com.example.trainlib.arguments
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.trainlib.presentation.users.adapter.UsersAdapter
+import io.reactivex.rxjava3.core.Single
 
 class UsersFragment: MvpAppCompatFragment(view_users), UsersView, UsersAdapter.Delegate {
 

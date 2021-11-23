@@ -1,5 +1,7 @@
 package com.example.trainlib.data
 
+import io.reactivex.rxjava3.core.Single
+
 class GitHubUserRepositoryImpl : GitHubUserRepository {
 
     private val users = listOf(
@@ -11,7 +13,7 @@ class GitHubUserRepositoryImpl : GitHubUserRepository {
     )
 
     override fun getUsers() =
-        users
+        Single.just(users)
 
     override fun getUserByLogin(userId: String): GitHubUser? =
         users.firstOrNull { user -> user.login == userId }
