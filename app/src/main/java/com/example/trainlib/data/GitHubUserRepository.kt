@@ -1,12 +1,13 @@
 package com.example.trainlib.data
 
-import io.reactivex.rxjava3.annotations.NonNull
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.Maybe
+import io.reactivex.Single
+
 
 interface GitHubUserRepository {
 
-    fun getUsers(): @NonNull Single<List<GitHubUser>>?
+    fun getUsers(): Single<List<GitHubUser>>
 
-    fun getUserByLogin(userId: String): GitHubUser?
+    fun getUserByLogin(userId: String): Maybe<GitHubUser>
 
 }

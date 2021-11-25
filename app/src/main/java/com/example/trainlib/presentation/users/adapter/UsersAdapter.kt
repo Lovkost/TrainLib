@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.trainlib.data.GitHubUser
 import com.example.trainlib.R.layout.view_user
-class UsersAdapter(private val delegate: Delegate?): ListAdapter<GitHubUser, UserViewHolder>(UserDiff) {
+import com.example.trainlib.presentation.GitHubUserViewModel
+
+class UsersAdapter(private val delegate: Delegate?): ListAdapter<GitHubUserViewModel, UserViewHolder>(UserDiff) {
 
     interface Delegate {
 
@@ -14,7 +16,7 @@ class UsersAdapter(private val delegate: Delegate?): ListAdapter<GitHubUser, Use
          * пользователя из списка.
          * @param user пользователь
          */
-        fun onUserPicked(user: GitHubUser)
+        fun onUserPicked(user: GitHubUserViewModel)
 
     }
 

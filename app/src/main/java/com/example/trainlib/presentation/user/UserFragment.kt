@@ -1,5 +1,6 @@
 package com.example.trainlib.presentation.user
 
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.trainlib.data.GitHubUser
 import com.example.trainlib.data.GitHubUserRepositoryFactory
@@ -9,6 +10,7 @@ import moxy.ktx.moxyPresenter
 import com.example.trainlib.arguments
 import com.example.trainlib.R.layout.view_user
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.trainlib.presentation.GitHubUserViewModel
 
 class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
@@ -36,8 +38,12 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
     private val viewBinding: ViewUserBinding by viewBinding()
 
-    override fun showUser(user: GitHubUser) {
+    override fun showUser(user: GitHubUserViewModel) {
         viewBinding.userLogin.text = user.login
+    }
+
+    override fun showError(error: Throwable) {
+        Toast.makeText(requireContext(), error.message, Toast.LENGTH_LONG).show()
     }
 
 }
