@@ -3,8 +3,8 @@ package com.example.trainlib.presentation.converter
 import android.net.Uri
 import com.example.trainlib.data.converter.Converter
 import com.example.trainlib.data.schedulers.Schedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
 
 

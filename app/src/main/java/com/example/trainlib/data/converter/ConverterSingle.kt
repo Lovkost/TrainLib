@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
-import io.reactivex.Single
-import io.reactivex.SingleObserver
-import io.reactivex.android.MainThreadDisposable
+import io.reactivex.rxjava3.android.MainThreadDisposable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleObserver
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream

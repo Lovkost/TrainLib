@@ -8,9 +8,9 @@ import com.example.trainlib.data.network.NetworkState
 import com.example.trainlib.data.network.NetworkStateObservable
 import com.example.trainlib.presentation.converter.ConverterScreen
 import com.github.terrakok.cicerone.androidx.AppNavigator
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpAppCompatActivity
 import java.util.concurrent.TimeUnit
 
