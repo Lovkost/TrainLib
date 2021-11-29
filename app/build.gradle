@@ -5,8 +5,8 @@ plugins {
     id 'kotlin-parcelize'
 }
 project.ext {
-    GITHUB_USER_NAME = System.getenv("GITHUB_USER_NAME") ?: "Lovkost"
-    GITHUB_USER_PASSWORD = System.getenv("GITHUB_USER_PASSWORD") ?: "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"
+    GITHUB_USER_NAME = System.getenv("GITHUB_USER_NAME") ?: "<not-set>"
+    GITHUB_USER_PASSWORD = System.getenv("GITHUB_USER_PASSWORD") ?: "<not-set>"
 }
 
 android {

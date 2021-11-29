@@ -1,64 +1,40 @@
 package com.example.trainlib.presentation
 
+import android.R
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import com.example.trainlib.PopularLibraries.Navigation.navigatorHolder
 import com.example.trainlib.PopularLibraries.Navigation.router
-import com.example.trainlib.data.network.NetworkState
-import com.example.trainlib.data.network.NetworkStateObservable
-import com.example.trainlib.presentation.converter.ConverterScreen
-import com.github.terrakok.cicerone.androidx.AppNavigator
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.plusAssign
+import com.example.trainlib.presentation.navigation.CustomNavigator
+import com.example.trainlib.presentation.users.UsersScreen
 import moxy.MvpAppCompatActivity
-import java.util.concurrent.TimeUnit
 
 class MainActivity : MvpAppCompatActivity() {
 
-    private val navigator = AppNavigator(this, android.R.id.content)
+    private val navigator = CustomNavigator(activity = this, R.id.content)
 
     override fun onResumeFragments() {
         super.onResumeFragments()
         navigatorHolder.setNavigator(navigator)
     }
 
-    val disposables = CompositeDisposable()
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        router.openDeepLink(intent?.data)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        savedInstanceState ?: router.newRootScreen(ConverterScreen)
-
-        val connect =
-            NetworkStateObservable(this)
-                .doOnNext { onNext(0, it) }
-                .publish()
-
-        connect.connect()
-
-        disposables +=
-            connect.delay(32L, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
-                .subscribe { onNext(1, it) }
-        disposables += connect.delay(16L, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
-            .subscribe { onNext(2, it) }
-        disposables += connect.delay(8L, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
-            .subscribe { onNext(3, it) }
-    }
-
-    private fun onNext(no: Int, state: NetworkState) {
-        Toast.makeText(this, "$no: NetworkState: $state", Toast.LENGTH_SHORT).show()
+        if (savedInstanceState == null) {
+            router.newRootScreen(UsersScreen)
+            router.openDeepLink(intent?.data)
+        }
     }
 
     override fun onPause() {
         navigatorHolder.removeNavigator()
         super.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        disposables.dispose()
     }
 
 }
