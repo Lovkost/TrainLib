@@ -2,19 +2,20 @@ package com.example.trainlib.presentation.user
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import moxy.MvpAppCompatFragment
-import com.example.trainlib.R.layout.view_user
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.trainlib.arguments
 import com.example.trainlib.data.GitHubUserRepositoryFactory
-import com.example.trainlib.databinding.ViewUserBinding
-import moxy.ktx.moxyPresenter
-import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.trainlib.data.repository.GitHubRepository
+import com.example.trainlib.databinding.ViewUserDetailsBinding
 import com.example.trainlib.presentation.GitHubUserViewModel
+import com.example.trainlib.presentation.user.adapter.GitHubRepositoryAdapter
 import com.example.trainlib.setTextColorCompat
 import com.example.trainlib.setUserAvatar
+import moxy.MvpAppCompatFragment
+import moxy.ktx.moxyPresenter
+import com.example.trainlib.R.layout.view_user_details
 
-
-class UserFragment: MvpAppCompatFragment(view_user), UserView {
+class UserFragment: MvpAppCompatFragment(view_user_details), UserView {
 
     companion object {
 
@@ -38,14 +39,24 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
         )
     }
 
-    private val viewBinding: ViewUserBinding by viewBinding()
+    private val viewBinding: ViewUserDetailsBinding by viewBinding()
+    private val gitHubRepositoryAdapter = GitHubRepositoryAdapter()
 
-    override fun showUser(userModel: GitHubUserViewModel) {
+    override fun showUser(user: GitHubUserViewModel) {
         with(viewBinding) {
-            user.setUserAvatar(userModel.avatar)
-            user.setTextColorCompat(userModel.nameColor)
-            user.text = userModel.name
+            this.user.setUserAvatar(user.avatar)
+            this.user.setTextColorCompat(user.nameColor)
+            this.user.text = user.name
         }
+    }
+
+    override fun showRepositories(repositories: List<GitHubRepository>) {
+        with(viewBinding) {
+            userRepositories.adapter = gitHubRepositoryAdapter
+        }
+
+        gitHubRepositoryAdapter
+            .submitList(repositories)
     }
 
     override fun showError(error: Throwable) {

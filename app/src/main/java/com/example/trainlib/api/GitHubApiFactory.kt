@@ -17,7 +17,7 @@ object GitHubApiFactory {
             .registerTypeAdapter(GitHubUser.Type::class.java, GitHubUserTypeDeserializer())
             .create()
 
-    fun create(): GitHubApi =
+    private val gitHubApi: GitHubApi by lazy {
         Retrofit.Builder()
             .baseUrl("https://api.github.com")
             .client(
@@ -35,5 +35,7 @@ object GitHubApiFactory {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(GitHubApi::class.java)
+    }
 
+    fun create(): GitHubApi = gitHubApi
 }

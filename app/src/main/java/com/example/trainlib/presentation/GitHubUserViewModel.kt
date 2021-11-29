@@ -4,6 +4,7 @@ import androidx.annotation.ColorRes
 import com.example.trainlib.data.GitHubUser
 
 data class GitHubUserViewModel(
+    val login: String,
     val name: String,
     val avatar: String,
     val type: GitHubUser.Type,
@@ -21,6 +22,7 @@ data class GitHubUserViewModel(
 
         fun map(user: GitHubUser) =
             GitHubUserViewModel(
+                user.login,
                 user.name ?: user.login,
                 user.avatar,
                 user.type
