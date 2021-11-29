@@ -3,10 +3,11 @@ package com.example.trainlib.presentation.users
 import com.example.trainlib.data.GitHubUserRepository
 import com.example.trainlib.data.schedulers.Schedulers
 import com.example.trainlib.presentation.GitHubUserViewModel
+import com.example.trainlib.presentation.GitHubUserViewModel.Mapper
 import com.example.trainlib.presentation.user.UserScreen
 import com.github.terrakok.cicerone.Router
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
 
 class UsersPresenter(
@@ -22,7 +23,7 @@ class UsersPresenter(
             userRepository
                 .getUsers()
                 .observeOn(schedulers.background())
-                .map { users -> users.map(GitHubUserViewModel.Mapper::map) }
+                .map { users -> users.map(Mapper::map) }
                 .observeOn(schedulers.main())
                 .subscribeOn(schedulers.background())
                 .subscribe(
@@ -32,11 +33,12 @@ class UsersPresenter(
     }
 
     fun displayUser(user: GitHubUserViewModel) {
-        router.navigateTo(UserScreen(user.login))
+        router.navigateTo(UserScreen(user.name))
     }
 
     override fun onDestroy() {
         disposables.dispose()
     }
+
 }
 

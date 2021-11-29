@@ -2,15 +2,17 @@ package com.example.trainlib.presentation.user
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.trainlib.data.GitHubUser
+import moxy.MvpAppCompatFragment
+import com.example.trainlib.R.layout.view_user
+import com.example.trainlib.arguments
 import com.example.trainlib.data.GitHubUserRepositoryFactory
 import com.example.trainlib.databinding.ViewUserBinding
-import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import com.example.trainlib.arguments
-import com.example.trainlib.R.layout.view_user
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.trainlib.presentation.GitHubUserViewModel
+import com.example.trainlib.setTextColorCompat
+import com.example.trainlib.setUserAvatar
+
 
 class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
@@ -38,8 +40,12 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
     private val viewBinding: ViewUserBinding by viewBinding()
 
-    override fun showUser(user: GitHubUserViewModel) {
-        viewBinding.userLogin.text = user.login
+    override fun showUser(userModel: GitHubUserViewModel) {
+        with(viewBinding) {
+            user.setUserAvatar(userModel.avatar)
+            user.setTextColorCompat(userModel.nameColor)
+            user.text = userModel.name
+        }
     }
 
     override fun showError(error: Throwable) {

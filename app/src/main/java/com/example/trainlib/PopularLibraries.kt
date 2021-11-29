@@ -9,8 +9,8 @@ class PopularLibraries : Application() {
 
     companion object Navigation {
 
-        private val cicerone : Cicerone<Router> by lazy {
-            Cicerone.create()
+        private val cicerone: Cicerone<CustomRouter> by lazy {
+            Cicerone.create(CustomRouter())
         }
 
         val navigatorHolder = cicerone.getNavigatorHolder()
