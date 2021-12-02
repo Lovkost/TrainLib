@@ -1,17 +1,15 @@
 package com.example.trainlib.data
 
-import com.example.trainlib.api.GitHubApi
-import com.example.trainlib.api.GitHubApiFactory
 import com.example.trainlib.data.repository.GitHubRepository
 import com.example.trainlib.data.repository.datasource.GitHubRepositoryCacheDataSource
 import com.example.trainlib.data.repository.datasource.GitHubRepositoryDataSource
 import com.example.trainlib.data.repository.datasource.GitHubUserCacheDataSource
 import com.example.trainlib.data.repository.datasource.GitHubUserDataSource
-import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class GitHubUserRepositoryImpl(
+class GitHubUserRepositoryImpl
+@Inject constructor(
     private val gitHubUserDataSource: GitHubUserDataSource,
     private val gitHubUserCacheDataSource: GitHubUserCacheDataSource,
     private val gitHubRepositoryDataSource: GitHubRepositoryDataSource,

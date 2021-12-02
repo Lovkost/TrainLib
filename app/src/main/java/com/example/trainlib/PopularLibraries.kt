@@ -1,28 +1,22 @@
 package com.example.trainlib
-
-import android.annotation.SuppressLint
-import android.app.Application
-import android.content.Context
+import com.example.trainlib.data.schedulers.SchedulersFactory
 import com.example.trainlib.presentation.navigation.CustomRouter
 import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
-class PopularLibraries : Application() {
-    @SuppressLint("StaticFieldLeak")
-    object ContextHolder { lateinit var context: Context }
-    companion object Navigation {
+class PopularLibraries : DaggerApplication() {
 
-        private val cicerone: Cicerone<CustomRouter> by lazy {
-            Cicerone.create(CustomRouter())
-        }
-
-        val navigatorHolder = cicerone.getNavigatorHolder()
-        val router = cicerone.router
-
-    }
-    override fun onCreate() {
-        super.onCreate()
-        ContextHolder.context = this
-    }
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
+        DaggerPopularLibrariesComponent
+            .builder()
+            .withContext(applicationContext)
+            .withSchedulers(SchedulersFactory.create())
+            .apply {
+                val cicerone = Cicerone.create(CustomRouter())
+                withRouter(cicerone.router)
+                withNavigatorHolder(cicerone.getNavigatorHolder())
+            }
+            .build()
 
 }

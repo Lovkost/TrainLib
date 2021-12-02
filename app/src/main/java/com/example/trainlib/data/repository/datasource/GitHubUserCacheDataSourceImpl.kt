@@ -4,9 +4,12 @@ import com.example.trainlib.data.GitHubUser
 import com.example.trainlib.data.storage.GitHubStorage
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
+import javax.inject.Named
 
-class GitHubUserCacheDataSourceImpl(
-    private val gitHubStorage: GitHubStorage
+class GitHubUserCacheDataSourceImpl
+@Inject constructor(
+    @Named("Persisted") private val gitHubStorage: GitHubStorage
 ) : GitHubUserCacheDataSource {
 
     override fun retain(users: List<GitHubUser>): Observable<List<GitHubUser>> =

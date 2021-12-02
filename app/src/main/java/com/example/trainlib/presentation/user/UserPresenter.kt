@@ -1,18 +1,17 @@
 package com.example.trainlib.presentation.user
 
 import com.example.trainlib.data.GitHubUserRepository
-import com.example.trainlib.presentation.GitHubUserViewModel.Mapper
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import com.example.trainlib.data.schedulers.Schedulers
+import com.example.trainlib.presentation.GitHubUserViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
-
 
 class UserPresenter(
     private val userLogin: String,
-    private val userRepository: GitHubUserRepository
+    private val userRepository: GitHubUserRepository,
+    private val schedulers: Schedulers
 ) : MvpPresenter<UserView>() {
 
     private val disposables = CompositeDisposable()
@@ -22,15 +21,15 @@ class UserPresenter(
             Observable.merge(
                 userRepository
                     .getUser(userLogin)
-                    .map(Mapper::map)
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .map(GitHubUserViewModel.Mapper::map)
+                    .observeOn(schedulers.main())
                     .doOnNext(viewState::showUser),
                 userRepository
                     .getUserRepositories(userLogin)
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(schedulers.main())
                     .doOnNext(viewState::showRepositories)
             )
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(schedulers.background())
                 .subscribe({}, viewState::showError)
     }
 

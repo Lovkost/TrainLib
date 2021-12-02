@@ -3,19 +3,20 @@ package com.example.trainlib.presentation.user
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.trainlib.presentation.abs.AbsFragment
+import moxy.ktx.moxyPresenter
+import javax.inject.Inject
+import com.example.trainlib.R.layout.view_user_details
 import com.example.trainlib.arguments
-import com.example.trainlib.data.GitHubUserRepositoryFactory
+import com.example.trainlib.data.GitHubUserRepository
 import com.example.trainlib.data.repository.GitHubRepository
 import com.example.trainlib.databinding.ViewUserDetailsBinding
 import com.example.trainlib.presentation.GitHubUserViewModel
 import com.example.trainlib.presentation.user.adapter.GitHubRepositoryAdapter
 import com.example.trainlib.setTextColorCompat
 import com.example.trainlib.setUserAvatar
-import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
-import com.example.trainlib.R.layout.view_user_details
 
-class UserFragment: MvpAppCompatFragment(view_user_details), UserView {
+class UserFragment: AbsFragment(view_user_details), UserView {
 
     companion object {
 
@@ -31,11 +32,15 @@ class UserFragment: MvpAppCompatFragment(view_user_details), UserView {
         arguments?.getString(ARG_USER_LOGIN).orEmpty()
     }
 
+    @Inject
+    lateinit var gitHubUserRepository: GitHubUserRepository
+
     @Suppress("unused")
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
             userLogin = userLogin,
-            userRepository = GitHubUserRepositoryFactory.create()
+            userRepository = gitHubUserRepository,
+            schedulers = schedulers
         )
     }
 
