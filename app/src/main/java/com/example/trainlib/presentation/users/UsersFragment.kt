@@ -26,14 +26,10 @@ class UsersFragment: AbsFragment(view_users), UsersView, UsersAdapter.Delegate {
     }
 
     @Inject
-    lateinit var gitHubUserRepository: GitHubUserRepository
+    lateinit var presenterFactory: UsersPresenterAssistedFactory
 
     private val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(
-            userRepository = gitHubUserRepository,
-            router = router,
-            schedulers = schedulers
-        )
+        presenterFactory.create()
     }
 
     private val viewBinding: ViewUsersBinding by viewBinding()

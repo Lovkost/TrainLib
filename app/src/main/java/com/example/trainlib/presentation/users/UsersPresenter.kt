@@ -4,15 +4,17 @@ import com.example.trainlib.data.GitHubUserRepository
 import com.example.trainlib.data.schedulers.Schedulers
 import com.example.trainlib.presentation.GitHubUserViewModel
 import com.example.trainlib.presentation.GitHubUserViewModel.Mapper
+import com.example.trainlib.presentation.navigation.CustomRouter
 import com.example.trainlib.presentation.user.UserScreen
 import com.github.terrakok.cicerone.Router
+import dagger.assisted.AssistedInject
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
-
-class UsersPresenter(
+class UsersPresenter
+@AssistedInject constructor(
     private val userRepository: GitHubUserRepository,
-    private val router: Router,
+    private val router:CustomRouter,
     private val schedulers: Schedulers
 ): MvpPresenter<UsersView>() {
 
